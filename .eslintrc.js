@@ -4,6 +4,9 @@ module.exports = {
     },
     extends: ['airbnb-typescript', 'react-app', 'prettier'],
     parser: '@typescript-eslint/parser', // Specifies the ESLint parser
+    parserOptions: {
+        project: './tsconfig.json',
+    },
     overrides: [
         {
             files: ['*.ts', '*.tsx'],
