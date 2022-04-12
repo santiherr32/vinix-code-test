@@ -3,4 +3,6 @@
 *.json
 .config
 .config.js
+*.config
+*.config.js
 /.github
