@@ -14,9 +14,10 @@
       ],
     },
     "jsx": "react-jsx",
+    "allowJs": true,
+    "checkJs": true,
   },
   "include": [
-    "**/*.ts",
     "src",
   ]
 }
