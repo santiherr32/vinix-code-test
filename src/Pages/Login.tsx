@@ -13,20 +13,6 @@ function Login() {
     });
     const formRef = useRef(null);
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const inputName: string = e.target.name;
-        const inputValue: string = e.target.value;
-        e.preventDefault();
-        setInputs({
-            ...inputs,
-            [inputName]: inputValue,
-        });
-    };
-    const handleSubmit = (e: FormEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        loginUser().then((data) => console.log(data.id));
-    };
-
     const loginUser = async () => {
         try {
             const formData = new FormData(formRef.current);
@@ -46,6 +32,19 @@ function Login() {
         }
     };
 
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const inputName: string = e.target.name;
+        const inputValue: string = e.target.value;
+        e.preventDefault();
+        setInputs({
+            ...inputs,
+            [inputName]: inputValue,
+        });
+    };
+    const handleSubmit = (e: FormEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        loginUser().then((data) => console.log(data.id));
+    };
     return (
         <form className="login-form" ref={formRef}>
             <label htmlFor="email">Email: </label>
