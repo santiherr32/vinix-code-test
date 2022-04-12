@@ -7,12 +7,12 @@ import { Router } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
-    <StrictMode>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
-    </StrictMode>,
-    document.getElementById('root'),
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>,
+  document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

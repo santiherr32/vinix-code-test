@@ -2,16 +2,16 @@ import { useState, useRef, ChangeEvent, FormEvent } from 'react';
 import './Login.scss';
 
 interface Data {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
 function Login() {
-    const [inputs, setInputs] = useState<Data>({
-        email: '',
-        password: '',
-    });
-    const formRef = useRef(null);
+  const [inputs, setInputs] = useState<Data>({
+    email: '',
+    password: ''
+  });
+  const formRef = useRef(null);
 
     const loginUser = async () => {
         try {
@@ -68,6 +68,7 @@ function Login() {
             </button>
         </form>
     );
+
 }
 
 export default Login;

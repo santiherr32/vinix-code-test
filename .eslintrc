@@ -12,8 +12,7 @@
     "extends": [
         "airbnb-typescript",
         "plugin:@typescript-eslint/recommended",
-        "prettier",
-        "plugin:prettier/recommended"
+        "prettier"
     ],
     "plugins": [
         "react",
@@ -34,13 +33,7 @@
         "linebreak-style": "off",
         "import/no-unresolved": "error",
         "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn",
-        "prettier/prettier": [
-            "error",
-            {
-                "endOfLine": "auto"
-            }
-        ]
+        "react-hooks/exhaustive-deps": "warn"
     },
     "overrides": [
         {
