@@ -1,0 +1,55 @@
+.home {
+    width: clamp(10rem, 90%, 70rem);
+    min-height: 100vh;
+    display: flex;
+    gap: 1rem;
+    place-content: center;
+
+    & a {
+        color: whitesmoke;
+        text-decoration: none;
+    }
+
+    & .home_not-login {
+        width: 100%;
+        display: grid;
+        grid-template-areas: 
+        'header header header'
+        'actions actions actions';
+        gap: 1.5rem;
+        margin-block: 1.5rem;
+
+        & span {
+            color: whitesmoke;
+            font-weight: 400;
+            font-size: medium;
+        }
+
+        & .not-login_header {
+            grid-area: header;
+        }
+
+        & .actions-section {
+            grid-area: actions;
+        }
+    }
+
+    & .home_user-login {
+        // width: clamp(10rem, 90%, 60rem);
+        width: 100%;
+        display: grid;
+        grid-template-areas: 
+        'header header header'
+        'posts posts posts';
+        gap: 1.5rem;
+        margin-block: 1.5rem;
+
+        & .user-login_header {
+            grid-area: header;
+        }
+
+        & .posts-section {
+            grid-area: posts;
+        }
+    }
+}
