@@ -1,20 +1,34 @@
-import { Route, Routes } from 'react-router';
+import { useEffect, useState } from 'react';
+import { Navigate, Route, Routes } from 'react-router';
 import './App.scss';
-import Home from './Pages/Home';
-import Login from './Pages/Login';
-import Register from './Pages/Register';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import { ContextProvider } from './Context';
 
 function App(): JSX.Element {
+  const token = localStorage.getItem('token');
+  const [tokenExists, setTokenExists] = useState(false);
+  // const { state, dispatch } = useContext(AppContext);
+
+  useEffect(() => {
+    setTokenExists(token !== null);
+  }, [tokenExists, token]);
+
   return (
     <div className="App">
-      <Routes>
-        <Route path="/" element={<Home />}>
-          <Route path="create" element={<Login />} />
-        </Route>
-
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
+      <ContextProvider>
+        <Routes>
+          <Route path="/" element={<Home />}>
+            <Route path="create" />
+          </Route>
+          <Route
+            path="/login"
+            element={tokenExists ? <Navigate to="/" /> : <Login />}
+          />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </ContextProvider>
     </div>
   );
 }
