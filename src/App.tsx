@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router';
 import './App.scss';
-import Home from '../src/pages/Home';
-import Login from '../src/pages/Login';
-import Register from '../src/pages/Register';
-import Create from '../src/pages/Create';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Create from './pages/Create';
 // import { ContextProvider } from './Context';
 
 function App(): JSX.Element {
