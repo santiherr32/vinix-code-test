@@ -4,6 +4,7 @@ import './App.scss';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Create from './pages/Create';
 import { ContextProvider } from './Context';
 
 function App(): JSX.Element {
@@ -12,16 +13,16 @@ function App(): JSX.Element {
   // const { state, dispatch } = useContext(AppContext);
 
   useEffect(() => {
-    setTokenExists(token !== null);
-  }, [tokenExists, token]);
+    if (token) setTokenExists(true);
+    else setTokenExists(false);
+  }, [token]);
 
   return (
     <div className="App">
       <ContextProvider>
         <Routes>
-          <Route path="/" element={<Home />}>
-            <Route path="create" />
-          </Route>
+          <Route index element={<Home />}></Route>
+          <Route path="/create" element={<Create />} />
           <Route
             path="/login"
             element={tokenExists ? <Navigate to="/" /> : <Login />}

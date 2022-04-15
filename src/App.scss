@@ -1,12 +1,13 @@
 @use './index.scss';
 
 .App {
-  text-align: center;
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  text-align            : center;
+  background-color      : #282c34;
+  background            : linear-gradient(135deg, #00000055 25%, transparent 25%) -10px 0/ 20px 20px, linear-gradient(225deg, #000000 25%, transparent 25%) -10px 0/ 20px 20px, linear-gradient(315deg, #00000055 25%, transparent 25%) 0px 0/ 20px 20px, linear-gradient(45deg, #000000 25%, #282c34 25%) 0px 0/ 20px 20px;
+  min-height            : 100vh;
+  display               : flex;
+  flex-direction        : column;
+  align-items           : center;
+  justify-content       : center;
+  // font-size: calc(10px + 2vmin);
 }
