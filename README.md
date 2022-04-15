@@ -4,9 +4,6 @@ A Single Page Application made for Vinix Code technical test
 # Project Title
 Vinix Code React Blog (Technical test)
 
-## Demo link:
-Access a deployed version of the web app at [google.com](https://google.com)
-
 ## Table of Content:
 
 - [About The App](#about-the-app)
@@ -21,7 +18,10 @@ Access a deployed version of the web app at [google.com](https://google.com)
 
 ## Screenshots
 
-`![Writing](https://unsplash.com/photos/VBPzRgd7gfc)`
+![Homepage](https://i.imgur.com/gwqoCMv.png)
+![Login page](https://i.imgur.com/4WdYPtz.png)
+![Register page](https://i.imgur.com/47XXs4M.png)     
+![Posts](https://i.imgur.com/XDgdGIE.png)
 
 Picture by [Kelly Sikkema](https://unsplash.com/@kellysikkema)
 
