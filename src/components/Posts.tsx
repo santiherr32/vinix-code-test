@@ -1,31 +1,77 @@
 import { useState, useEffect } from 'react';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import './Posts.scss';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
 
 interface PostProps {
   tokenExists: boolean;
 }
 
 function Posts({ tokenExists }: PostProps): JSX.Element {
-  const [userPosts, setUserPosts] = useState([] || '');
+  const [userPosts, setUserPosts] = useState({
+    posts: [],
+    message: 'fetching'
+  });
   const [isLoading, setIsLoading] = useState(false);
-  const token = localStorage.getItem('token');
-  // const { state } = useContext(AppContext);
+  const [shouldUpdate, setShouldUpdate] = useState(false);
+  const [showToast, setShowToast] = useState({
+    message: '',
+    visible: false
+  });
 
+  // const { state } = useContext(AppContext);
   const updateCurrentPosts = (
     data: Iterable<unknown> | ArrayLike<unknown> | string
   ) => {
     if (typeof data === 'string') {
-      setUserPosts(data);
+      setUserPosts({
+        ...userPosts,
+        message: data
+      });
     } else {
-      setUserPosts(Array.from(data));
+      setUserPosts({
+        posts: Array.from(data),
+        message: ''
+      });
     }
     setIsLoading(false);
   };
 
+  const handleDeletion = async (postId: number) => {
+    try {
+      await fetch(
+        'http://front-test.vinixcode.cloud:8000/api/v1/post/' + postId,
+        {
+          method: 'DELETE'
+        }
+      ).then((res) => {
+        setIsLoading(true);
+        if (res.status === 204) {
+          // setTimeout(() => {
+          setShouldUpdate(true);
+          // }, 500);
+          setIsLoading(false);
+          setShowToast({
+            message: 'The post was deleted',
+            visible: true
+          });
+        }
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoading(true);
+
     const getPosts = async () => {
-      setIsLoading(true);
+      console.log('getting posts');
       try {
         const headersList = {
           Accept: '*/*',
@@ -46,35 +92,43 @@ function Posts({ tokenExists }: PostProps): JSX.Element {
         //   return 'Not authorized'
         // }
       } catch (error) {
-        console.log(error.message);
-        return error.message;
+        console.log(error);
+        return error;
       }
     };
 
-    // if (tokenExists && !userPosts.length) {
     getPosts().then((posts) => {
       return updateCurrentPosts(posts);
     });
-    // }
-  }, [token]);
+  }, [tokenExists, shouldUpdate]);
 
   return (
     <section className="posts-container">
       {!isLoading ? (
         typeof userPosts !== 'string' ? (
-          userPosts.length ? (
-            <ul className="list-group">
-              {userPosts?.map((post, index) => {
+          userPosts.posts.length ? (
+            <ListGroup>
+              {userPosts.posts?.map((post, index) => {
                 return (
-                  <li className="list-group-item card" key={post.id}>
-                    <div className="card-body" key={index}>
-                      <h1 className="card-title">{post.title}</h1>
-                      <p className="card-text">{post.body}</p>
-                    </div>
-                  </li>
+                  <Card key={post.id}>
+                    <Card.Body key={index}>
+                      <Card.Title>{post.title}</Card.Title>
+                      <Card.Text>{post.body}</Card.Text>
+                      <Button
+                        variant="outline-danger"
+                        onClick={() => handleDeletion(post.id)}
+                      >
+                        Delete
+                      </Button>
+                    </Card.Body>
+                  </Card>
                 );
               })}
-            </ul>
+            </ListGroup>
+          ) : userPosts.message === 'fetching' ? (
+            <Spinner animation="border" role="status" variant="light">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
           ) : (
             <h2>You have no posts yet</h2>
           )
@@ -86,6 +140,21 @@ function Posts({ tokenExists }: PostProps): JSX.Element {
           <span className="visually-hidden">Loading...</span>
         </Spinner>
       )}
+      <ToastContainer
+        position="bottom-start"
+        className="position-sticky start-0 mb-3"
+        style={{ bottom: '10%' }}
+      >
+        <Toast
+          className="bg-success text-white w-100"
+          onClose={() => setShowToast({ message: '', visible: false })}
+          show={showToast.visible}
+          delay={50000}
+          autohide
+        >
+          <Toast.Body className="text-start">{showToast.message}</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </section>
   );
 }

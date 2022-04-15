@@ -1,8 +1,8 @@
 .posts-container {
     width: 100%;
-    color: whitesmoke;
+    min-height: 100%;
 
-    & ul {
+    & .list-group {
         display  : grid;
         grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
         grid-auto-rows: max-content;
