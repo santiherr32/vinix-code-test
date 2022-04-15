@@ -1,7 +1,10 @@
-import { useState, useRef, ChangeEvent, FormEvent } from 'react';
+import { useState, useRef, ChangeEvent, FormEvent, useEffect } from 'react';
+import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import './Login.scss';
+import MessageAlert, { MessageAlertElement } from '../components/MessageAlert';
+import { Link } from 'react-router-dom';
 
 interface Data {
   email: string;
@@ -15,8 +18,26 @@ function Login() {
     email: '',
     password: ''
   });
+  const [showAlert, setShowAlert] = useState<MessageAlertElement>({
+    message: '',
+    visible: false,
+    type: 'success'
+  });
   const formRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state)
+      setShowAlert({
+        message: `${location.state}`,
+        visible: true
+      });
+
+    return () => {
+      setShowAlert({ message: '', visible: false });
+    };
+  }, [location]);
 
   const loginUser = async () => {
     try {
@@ -39,8 +60,16 @@ function Login() {
     error: string;
   }) => {
     if (!info.access_token) {
-      if (info.error) alert('User was not found. Check again');
-      else alert(JSON.stringify(info));
+      if (info.error) {
+        setShowAlert({
+          message: 'User was not found. Check again',
+          visible: true,
+          type: 'danger'
+        });
+        // setTimeout(() => {
+        // setShowAlert({ message: '', visible: false });
+        // }, 5000);
+      } else alert(JSON.stringify(info));
       return;
     }
     localStorage.setItem('token', info.access_token);
@@ -69,39 +98,58 @@ function Login() {
   };
 
   return (
-    <form className="login-form" ref={formRef}>
-      <label className="form-label" htmlFor="email">
-        <span>Email: </span>
-        <input
-          className="form-control"
-          type="email"
-          name="email"
-          id="email"
-          value={inputs.email}
-          required={true}
-          onChange={handleChange}
-        />
-      </label>
-      <label className="form-label" htmlFor="password">
-        <span>Password: </span>
-        <input
-          className="form-control"
-          type="password"
-          name="password"
-          id="password"
-          required={true}
-          value={inputs.password}
-          onChange={handleChange}
-        />
-      </label>
-      <Button
-        type="submit"
-        onClick={handleSubmit}
-        disabled={inputs.email && inputs.password ? false : true}
-      >
-        Submit
-      </Button>
-    </form>
+    <div className="login-page-wrapper">
+      <header>
+        <Button onClick={() => navigate(-1)}>Go back</Button>
+      </header>
+      <main>
+        <Form className="login-form" ref={formRef}>
+          <MessageAlert showAlert={showAlert} />
+          <Form.Group>
+            <Form.Label htmlFor="email">
+              <span>Email: </span>
+            </Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              id="email"
+              value={inputs.email}
+              placeholder="davidsmith@company.com"
+              required={true}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label className="form-label" htmlFor="password">
+              <span>Password: </span>
+            </Form.Label>
+            <Form.Control
+              className="form-control"
+              type="password"
+              name="password"
+              id="password"
+              value={inputs.password}
+              placeholder="***********"
+              required={true}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            disabled={!(inputs.email && inputs.password) ? true : false}
+          >
+            Login
+          </Button>
+        </Form>
+        <section>
+          <span>Or you can </span>
+          <Button>
+            <Link to="/register">Register</Link>
+          </Button>
+        </section>
+      </main>
+    </div>
   );
 }
 
