@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import './Home.scss';
+// import Posts from '../components/Posts';
 
 const Posts = lazy(() => import('../components/Posts'));
 
@@ -25,39 +26,45 @@ function Home() {
   };
 
   useEffect(() => {
-    setTokenExists(localStorage.getItem('token') !== null);
+    const token = localStorage.getItem('token');
+    setTokenExists(token ? true : false);
   }, [tokenExists]);
 
   return (
-    <main className="home">
+    <div className="home-wrapper">
       {tokenExists ? (
         <div className="home_user-login">
           <header className="user-login_header">
-            <Button onClick={handleLogout}>Logout</Button>
+            <Button variant="outline-light" onClick={handleLogout}>
+              Logout
+            </Button>
+            <Link className="btn btn-primary btn-lg" to="/create">
+              New post
+            </Link>
           </header>
-          <section className="posts-section">
+          <main className="posts-section">
             <Suspense fallback={LoadingSpinner}>
               {tokenExists && <Posts tokenExists={tokenExists} />}
             </Suspense>
-          </section>
+          </main>
         </div>
       ) : (
         <div className="home_not-login">
           <header className="not-login_header">
-            <h1>Hi, there!</h1>
+            <h1>Welcomo to your personal blog</h1>
           </header>
-          <section className="actions-section">
-            <Button>
-              <Link to="/login">Login</Link>
-            </Button>
+          <main className="actions-section">
+            <Link className="btn btn-primary" to="/login">
+              Login
+            </Link>
             <span> Or </span>
-            <Button>
-              <Link to="/register">Register</Link>
-            </Button>
-          </section>
+            <Link className="btn btn-secondary" to="/register">
+              Register
+            </Link>
+          </main>
         </div>
       )}
-    </main>
+    </div>
   );
 }
 
