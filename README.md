@@ -23,7 +23,8 @@ Vinix Code React Blog (Technical test)
 ![Register page](https://i.imgur.com/47XXs4M.png)     
 ![Posts](https://i.imgur.com/XDgdGIE.png)
 
-Picture by [Kelly Sikkema](https://unsplash.com/@kellysikkema)
+### Video demo
+[![Video demo](https://i.imgur.com/XDgdGIE.png)](https://youtu.be/PLKNF_qFNtw)
 
 ## Technologies
 I used `html`, `css`, `sass`, `react`, `typescript`, `javascript`, `bootstrap`, `context-api`
