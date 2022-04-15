@@ -1,4 +1,8 @@
 import { useState, useRef, ChangeEvent, FormEvent } from 'react';
+import { useNavigate } from 'react-router';
+import MessageAlert, { MessageAlertElement } from '../components/MessageAlert';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import './Register.scss';
 
 interface UserData {
@@ -9,13 +13,36 @@ interface UserData {
 }
 
 function Register() {
+  const navigate = useNavigate();
   const [inputs, setInputs] = useState<UserData>({
     name: '',
     email: '',
     password: '',
     password_confirmation: ''
   });
+  const [showAlert, setShowAlert] = useState<MessageAlertElement>({
+    message: '',
+    visible: false,
+    type: 'success'
+  });
+
   const formRef = useRef(null);
+
+  function togglePasswordVisibility() {
+    const x = document.getElementById('password');
+    const showIcon = document.getElementById('showIcon');
+    const hideIcon = document.getElementById('hideIcon');
+    hideIcon.classList.remove('d-none');
+    if (x.getAttribute('type') === 'password') {
+      x.setAttribute('type', 'text');
+      showIcon.style.display = 'none';
+      hideIcon.style.display = 'block';
+    } else {
+      x.setAttribute('type', 'password');
+      showIcon.style.display = 'block';
+      hideIcon.style.display = 'none';
+    }
+  }
 
   const registerUser = async () => {
     try {
@@ -48,47 +75,100 @@ function Register() {
 
   const handleSubmit = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    registerUser().then((data) => console.log(data.id));
+    registerUser().then((data) => {
+      console.log(data);
+      if (Object.keys(data).some((i) => i === 'user')) {
+        setShowAlert({
+          message: data.message,
+          visible: true,
+          type: 'success'
+        });
+        navigate('/login', {
+          state: 'You were registered successfully. Now you can login'
+        });
+      } else {
+        const response = JSON.parse(data);
+        const message = Object.values(response)[0];
+        setShowAlert({
+          message: message,
+          visible: true,
+          type: 'danger'
+        });
+        setInputs({
+          ...inputs,
+          password: '',
+          password_confirmation: ''
+        });
+      }
+    });
   };
 
   return (
-    <form className="register-form" ref={formRef}>
-      <label htmlFor="name">Full name: </label>
-      <input
-        type="text"
-        name="name"
-        id="name"
-        value={inputs.name}
-        onChange={handleChange}
-      />
-      <label htmlFor="email">Email: </label>
-      <input
-        type="email"
-        name="email"
-        id="email"
-        value={inputs.email}
-        onChange={handleChange}
-      />
-      <label htmlFor="password">Password: </label>
-      <input
-        type="password"
-        name="password"
-        id="password"
-        value={inputs.password}
-        onChange={handleChange}
-      />
-      <label htmlFor="password_confirmation">Password: </label>
-      <input
-        type="password"
-        name="password_confirmation"
-        id="password_confirmation"
-        value={inputs.password_confirmation}
-        onChange={handleChange}
-      />
-      <button type="submit" onClick={handleSubmit}>
-        Submit
-      </button>
-    </form>
+    <div className="register-page-wrapper">
+      <header>
+        <Button onClick={() => navigate(-1)}>Go back</Button>
+      </header>
+      <main>
+        <Form className="register-form" ref={formRef}>
+          <MessageAlert showAlert={showAlert} />
+          <Form.Group>
+            <Form.Label htmlFor="name">Full name: </Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              id="name"
+              value={inputs.name}
+              placeholder="David Smith"
+              required
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label htmlFor="email">Email: </Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              id="email"
+              value={inputs.email}
+              placeholder="davidsmith@company.com"
+              required
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label htmlFor="password">Password: </Form.Label>
+            <Form.Control
+              type="password"
+              name="password"
+              id="password"
+              value={inputs.password}
+              placeholder="***********"
+              required
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label htmlFor="password_confirmation">Password: </Form.Label>
+            <Form.Control
+              type="password"
+              name="password_confirmation"
+              id="password_confirmation"
+              value={inputs.password_confirmation}
+              placeholder="***********"
+              required
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            disabled={Object.values(inputs).some((val) => !val)}
+          >
+            Submit
+          </Button>
+        </Form>
+      </main>
+    </div>
   );
 }
 
