@@ -28,22 +28,6 @@ function Register() {
 
   const formRef = useRef(null);
 
-  function togglePasswordVisibility() {
-    const x = document.getElementById('password');
-    const showIcon = document.getElementById('showIcon');
-    const hideIcon = document.getElementById('hideIcon');
-    hideIcon.classList.remove('d-none');
-    if (x.getAttribute('type') === 'password') {
-      x.setAttribute('type', 'text');
-      showIcon.style.display = 'none';
-      hideIcon.style.display = 'block';
-    } else {
-      x.setAttribute('type', 'password');
-      showIcon.style.display = 'block';
-      hideIcon.style.display = 'none';
-    }
-  }
-
   const registerUser = async () => {
     try {
       const formData = new FormData(formRef.current);

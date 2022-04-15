@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
@@ -24,22 +24,23 @@ function Posts({ tokenExists }: PostProps): JSX.Element {
   });
 
   // const { state } = useContext(AppContext);
-  const updateCurrentPosts = (
-    data: Iterable<unknown> | ArrayLike<unknown> | string
-  ) => {
-    if (typeof data === 'string') {
-      setUserPosts({
-        ...userPosts,
-        message: data
-      });
-    } else {
-      setUserPosts({
-        posts: Array.from(data),
-        message: ''
-      });
-    }
-    setIsLoading(false);
-  };
+  const updateCurrentPosts = useCallback(
+    (data: Iterable<unknown> | ArrayLike<unknown> | string) => {
+      if (typeof data === 'string') {
+        setUserPosts({
+          posts: [],
+          message: data
+        });
+      } else {
+        setUserPosts({
+          posts: Array.from(data),
+          message: ''
+        });
+      }
+      setIsLoading(false);
+    },
+    []
+  );
 
   const handleDeletion = async (postId: number) => {
     try {
@@ -97,10 +98,8 @@ function Posts({ tokenExists }: PostProps): JSX.Element {
       }
     };
 
-    getPosts().then((posts) => {
-      return updateCurrentPosts(posts);
-    });
-  }, [tokenExists, shouldUpdate]);
+    getPosts().then((posts) => updateCurrentPosts(posts));
+  }, [tokenExists, shouldUpdate, updateCurrentPosts]);
 
   return (
     <section className="posts-container">
