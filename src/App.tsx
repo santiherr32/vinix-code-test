@@ -13,6 +13,7 @@ function App(): JSX.Element {
   // const { state, dispatch } = useContext(AppContext);
 
   useEffect(() => {
+    setTokenExists(false);
     if (token) setTokenExists(true);
     else setTokenExists(false);
   }, [token]);

@@ -148,7 +148,7 @@ function Posts({ tokenExists }: PostProps): JSX.Element {
           className="bg-success text-white w-100"
           onClose={() => setShowToast({ message: '', visible: false })}
           show={showToast.visible}
-          delay={50000}
+          delay={10000}
           autohide
         >
           <Toast.Body className="text-start">{showToast.message}</Toast.Body>
