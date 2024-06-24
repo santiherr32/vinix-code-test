@@ -1,4 +1,7 @@
 {
   "rules": {
-  }
+    "comment-empty-line-before": null,
+    "comment-whitespace-inside": null
+  },
+  "ignoreFiles": ["src/**/*.scss"]
 }
