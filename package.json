@@ -3,6 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@sabertazimi/react-scripts": "^5.21.2",
         "@types/react": "^18.0.1",
         "@types/react-dom": "^18.0.0",
         "autoprefixer": "^10.4.4",
@@ -15,7 +16,7 @@
         "react-router-dom": "^6.3.0",
         "sass": "^1.50.0",
         "svgo": "^2.8.0",
-        "typescript": "^4.6.3",
+        "typescript": "^5.5.2",
         "web-vitals": "^2.1.4"
     },
     "overrides": {
@@ -26,7 +27,7 @@
         "build": "npm run build:css && react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "lint": "eslint src",
+        "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
         "lint-fix": "eslint src --quiet --fix",
         "build:css": "postcss src/index.scss -o src/main.css",
         "watch:css": "postcss src/index.scss -o src/main.css"
@@ -52,7 +53,7 @@
         "@typescript-eslint/eslint-plugin": "^5.19.0",
         "@typescript-eslint/parser": "^5.18.0",
         "autoprefixer": "^10.4.4",
-        "eslint": "^8.13.0",
+        "eslint": "^8.57.0",
         "eslint-config-airbnb-typescript": "^17.0.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-config-react-app": "^7.0.0",
@@ -61,8 +62,7 @@
         "eslint-plugin-react-hooks": "^4.4.0",
         "husky": "^7.0.4",
         "postcss-cli": "^9.1.0",
-        "prettier": "^2.6.2",
-        "react-scripts": "^5.0.1"
+        "prettier": "^2.6.2"
     },
     "husky": {
         "hooks": {
